@@ -30,6 +30,7 @@ public class User {
     @Column(name = "password_hash")
     private String password;
 
+    @Column(name = "birth_date")
     private LocalDate birthDate;
 
     private String firstname;

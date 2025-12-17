@@ -1,7 +1,7 @@
 package org.example.reminderapp.dto;
 
 import lombok.Data;
-import org.example.reminderapp.entity.Status;
+import org.example.reminderapp.entity.enums.Status;
 
 import java.time.OffsetDateTime;
 

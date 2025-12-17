@@ -3,17 +3,12 @@ package org.example.reminderapp.dto;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
-public class UserProfileResponseDto {
+public class UserFilterDto {
 
-    private Long id;
-    private String username;
-    private String email;
     private String firstname;
     private String lastname;
     private LocalDate birthDate;
-    private List<ReminderResponseDto> reminders;
 
 }

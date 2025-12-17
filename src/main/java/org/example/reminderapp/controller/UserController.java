@@ -20,29 +20,29 @@ public class UserController {
     private final UserService userService;
     private final UserMapperDto userMapperDto;
 
-    @GetMapping
-    public UserProfileResponseDto findAll() {
-        List<UserProfileResponseDto> usersAll = userService.findAll();
-        return
-    }
-
-    @GetMapping("/{id}")
-    public UserProfileResponseDto findById(@PathVariable Long id) {
-
-    }
-
-    @PostMapping
-    public UserCreateDto createUser(@Valid @RequestBody User user) {
-
-    }
-
-    @PutMapping
-    public UserProfileResponseDto updateUser(@Valid @RequestBody User user) {
-
-    }
-
-    @DeleteMapping
-    public void deleteUser(@RequestParam Long id) {
-        userService.delete(id);
-    }
+//    @GetMapping
+//    public UserProfileResponseDto findAll() {
+//        List<UserProfileResponseDto> usersAll = userService.findAll();
+//        return
+//    }
+//
+//    @GetMapping("/{id}")
+//    public UserProfileResponseDto findById(@PathVariable Long id) {
+//
+//    }
+//
+//    @PostMapping
+//    public UserCreateDto createUser(@Valid @RequestBody User user) {
+//
+//    }
+//
+//    @PutMapping
+//    public UserProfileResponseDto updateUser(@Valid @RequestBody User user) {
+//
+//    }
+//
+//    @DeleteMapping
+//    public void deleteUser(@RequestParam Long id) {
+//        userService.delete(id);
+//    }
 }

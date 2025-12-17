@@ -1,4 +1,4 @@
-package org.example.reminderapp.entity;
+package org.example.reminderapp.entity.enums;
 
 public enum Status {
     PENDING,

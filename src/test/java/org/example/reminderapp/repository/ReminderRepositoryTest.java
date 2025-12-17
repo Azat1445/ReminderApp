@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
@@ -31,7 +32,13 @@ class ReminderRepositoryTest {
         user.setEmail("rem@example.com");
         user.setPassword("pass");
         user.setCreatedAt(OffsetDateTime.now(ZoneOffset.UTC));
+
+        user.setFirstname("Ivan");
+        user.setLastname("Ivanov");
+        user.setBirthDate(LocalDate.of(2000,1,1));
+
         User savedUser = userRepository.save(user);
+
 
         Reminder reminder = new Reminder();
         reminder.setTitle("Test title");
@@ -42,7 +49,6 @@ class ReminderRepositoryTest {
         Reminder saved = reminderRepository.save(reminder);
 
         assertThat(saved.getId()).isNotNull();
-        assertThat(saved.getUser()).isNotNull();
-        assertThat(saved.getUser().getId()).isEqualTo(savedUser.getId());
+        assertThat(saved.getUser().getFirstname()).isEqualTo("Ivan");
     }
 }

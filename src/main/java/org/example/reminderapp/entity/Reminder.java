@@ -1,10 +1,10 @@
 package org.example.reminderapp.entity;
 
 import jakarta.persistence.*;
-import jdk.jshell.Snippet;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.reminderapp.entity.enums.Status;
 
 import java.time.OffsetDateTime;
 
