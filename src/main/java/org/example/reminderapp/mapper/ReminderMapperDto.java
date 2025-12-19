@@ -10,16 +10,18 @@ import java.util.List;
         unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface ReminderMapperDto {
 
+    //Entity -> DTO
+    ReminderResponseDto toDto(Reminder entity);
+
     //DTO -> Entity
     @Mapping(target = "status", constant = "PENDING")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "user", ignore = true)
     Reminder toEntity(ReminderCreateDto dto);
 
-    ReminderResponseDto toResponseDto(Reminder entity);
-
+    //List mapping
     List<ReminderResponseDto> toResponseList(List<Reminder> entities);
 
     //Update Entity of DTO
-//    void updateEntity(@MappingTarget Reminder entity, ReminderUpdateDto dto);
+    void updateEntity(ReminderUpdateDto dto,@MappingTarget Reminder entity);
 }

@@ -29,4 +29,11 @@ public interface UserMapperDto {
     //List mapping
     List<UserProfileResponseDto> toDtoList(List<User> entities);
 
+    //Update entity of DTO
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "reminders", ignore = true)
+    void updateEntity(UserCreateDto dto, @MappingTarget User entity);
+
 }

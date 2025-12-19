@@ -29,8 +29,6 @@ public class Reminder {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    //add type?
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
     private User user;
