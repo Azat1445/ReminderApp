@@ -6,8 +6,10 @@ import org.example.reminderapp.dto.UserFilterDto;
 import org.example.reminderapp.entity.User;
 import org.example.reminderapp.exception.ResourceNotFoundException;
 import org.example.reminderapp.mapper.UserMapperDto;
+import org.example.reminderapp.repository.specification.UserSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.reminderapp.dto.UserProfileResponseDto;
@@ -25,10 +27,10 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapperDto userMapperDto;
 
-    public Page<UserProfileResponseDto> findAll(Pageable pageable) {
-        //пока без фильтров для пагинации
+    public Page<UserProfileResponseDto> findAll(UserFilterDto filter,Pageable pageable) {
+        Specification<User> specification = UserSpecification.withFilters(filter);
 
-        return userRepository.findAll(pageable)
+        return userRepository.findAll(specification, pageable)
                 .map(userMapperDto::toDto);
     }
 

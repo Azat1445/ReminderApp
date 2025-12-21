@@ -8,6 +8,8 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.ArrayList;
 import java.util.List;
 
+// Class for hard filtres
+
 public class ReminderSpecification {
 
     public static Specification<Reminder> withFilters(ReminderFilterDto filter) {

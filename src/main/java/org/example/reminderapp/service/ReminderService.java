@@ -2,10 +2,7 @@ package org.example.reminderapp.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.example.reminderapp.dto.ReminderCreateDto;
-import org.example.reminderapp.dto.ReminderFilterDto;
-import org.example.reminderapp.dto.ReminderResponseDto;
-import org.example.reminderapp.dto.ReminderUpdateDto;
+import org.example.reminderapp.dto.*;
 import org.example.reminderapp.entity.Reminder;
 import org.example.reminderapp.entity.User;
 import org.example.reminderapp.entity.enums.Status;
@@ -28,6 +25,19 @@ public class ReminderService {
     private final ReminderMapperDto reminderMapperDto;
 
     @Transactional
+    public Page<ReminderResponseDto> findAll(ReminderFilterDto filter, Pageable pageable) {
+        Specification<Reminder> specification = ReminderSpecification.withFilters(filter);
+
+        return reminderRepository.findAll(specification, pageable)
+                .map(reminderMapperDto::toDto);
+    }
+
+    public ReminderResponseDto findById(Long id) {
+        return reminderRepository.findById(id)
+                .map(reminderMapperDto::toDto)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+    }
+
     public ReminderResponseDto create(ReminderCreateDto dto) {
         User user = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id " + dto.getUserId()));
@@ -59,13 +69,4 @@ public class ReminderService {
         }
         reminderRepository.deleteById(id);
     }
-
-    @Transactional
-    public Page<ReminderResponseDto> findAll(ReminderFilterDto filter, Pageable pageable) {
-        Specification<Reminder> specification = ReminderSpecification.withFilters(filter);
-
-        return reminderRepository.findAll(specification,pageable)
-                .map(reminderMapperDto::toDto);
-    }
-
 }

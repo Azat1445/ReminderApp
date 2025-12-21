@@ -2,59 +2,57 @@ package org.example.reminderapp.controller;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.validation.Valid;
-import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.reminderapp.dto.UserCreateDto;
 import org.example.reminderapp.dto.UserFilterDto;
 import org.example.reminderapp.dto.UserProfileResponseDto;
-import org.example.reminderapp.entity.User;
-import org.example.reminderapp.exception.ResourceNotFoundException;
-import org.example.reminderapp.service.ReminderService;
 import org.example.reminderapp.service.UserService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.awt.print.Pageable;
-import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("api/users")
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
 
     private final UserService userService;
 
 
     @GetMapping
-    public Page<UserProfileResponseDto> findAll(Pageable pageable) {
-        ResponseEntity<Page<UserProfileResponseDto>> users = userService.findAll(pageable);
-        return ;
+    public Page<UserProfileResponseDto> findAll(UserFilterDto filter, Pageable pageable) {
+        log.info("Request to find all users with filter {}", filter);
+        return userService.findAll(filter, pageable);
     }
 
     @GetMapping("/{id}")
     public UserProfileResponseDto findById(@PathVariable Long id) {
+        log.info("Request to find user by id {}", id);
         return userService.findById(id);
+
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public UserProfileResponseDto create(@Valid @RequestBody UserCreateDto userDto) {
+        log.info("Request  to create user {}", userDto.getUsername());
         return userService.create(userDto);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public UserProfileResponseDto update(@PathVariable Long id,
                                          @Valid @RequestBody UserCreateDto userDto) {
+        log.info("Request to update user id: {}", id);
         return userService.update(id, userDto);
     }
 
-    @DeleteMapping
-    public void deleteUser(@RequestParam Long id) {
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        log.info("Request to delete user id: {}", id);
         userService.delete(id);
     }
 }

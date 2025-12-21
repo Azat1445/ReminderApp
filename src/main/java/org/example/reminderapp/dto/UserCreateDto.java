@@ -1,11 +1,12 @@
 package org.example.reminderapp.dto;
 
+import lombok.Data;
 import lombok.Value;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
-@Value
+@Data
 public class UserCreateDto {
 
     private String username;

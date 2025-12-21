@@ -23,5 +23,7 @@ public interface ReminderMapperDto {
     List<ReminderResponseDto> toResponseList(List<Reminder> entities);
 
     //Update Entity of DTO
+    @Mapping(target = "status", ignore = true)
+    @Mapping(target = "user", ignore = true)
     void updateEntity(ReminderUpdateDto dto,@MappingTarget Reminder entity);
 }

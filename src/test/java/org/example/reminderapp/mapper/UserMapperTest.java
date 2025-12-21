@@ -25,14 +25,13 @@ public class UserMapperTest {
     @Test
     void shouldMapUserCreateDtoToEntity() {
 
-        UserCreateDto dto = new UserCreateDto(
-                "testUser",
-                "test@example.com",
-                "password123",
-                "John",
-                "Doe",
-                LocalDate.of(1990, 1, 1)
-        );
+        UserCreateDto dto = new UserCreateDto();
+        dto.setUsername("testUser");
+        dto.setEmail("test@example.com");
+        dto.setPassword("password123");
+        dto.setFirstname("John");
+        dto.setLastname("Doe");
+        dto.setBirthDate(LocalDate.of(1990, 1, 1));
 
         User entity = userMapper.toEntity(dto);
 
