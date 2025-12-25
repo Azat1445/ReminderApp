@@ -36,8 +36,7 @@ public class ReminderController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ReminderResponseDto create(@RequestBody ReminderCreateDto createDto) {
-        log.info("Creating reminder for userId: {}, title '{}'",
-                createDto.getUserId(), createDto.getTitle());
+        log.info("Creating reminder: {}",createDto.getTitle());
         return reminderService.create(createDto);
     }
 

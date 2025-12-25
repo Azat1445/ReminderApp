@@ -14,7 +14,10 @@ import org.example.reminderapp.repository.specification.ReminderSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +29,9 @@ public class ReminderService {
 
     @Transactional
     public Page<ReminderResponseDto> findAll(ReminderFilterDto filter, Pageable pageable) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        filter.setUsername(username);
+
         Specification<Reminder> specification = ReminderSpecification.withFilters(filter);
 
         return reminderRepository.findAll(specification, pageable)
@@ -39,8 +45,10 @@ public class ReminderService {
     }
 
     public ReminderResponseDto create(ReminderCreateDto dto) {
-        User user = userRepository.findById(dto.getUserId())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with id " + dto.getUserId()));
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         Reminder reminder = reminderMapperDto.toEntity(dto);
 
@@ -53,19 +61,30 @@ public class ReminderService {
 
     @Transactional
     public ReminderResponseDto update(Long id, ReminderUpdateDto dto) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
         Reminder reminder = reminderRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Reminder not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Reminder not found"));
+
+        if (!reminder.getUser().getUsername().equals(username)) {
+            throw new AccessDeniedException("Access denied");
+        }
+
         reminderMapperDto.updateEntity(dto, reminder);
 
         Reminder savedEntity = reminderRepository.save(reminder);
-
         return reminderMapperDto.toDto(savedEntity);
     }
 
     @Transactional
     public void delete(Long id) {
-        if (!reminderRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Reminder not found with id: " + id);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Reminder reminder = reminderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reminder not found"));
+
+        if (!reminder.getUser().getUsername().equals(username)) {
+            throw new AccessDeniedException("You do not have permission to delete this reminder");
         }
         reminderRepository.deleteById(id);
     }

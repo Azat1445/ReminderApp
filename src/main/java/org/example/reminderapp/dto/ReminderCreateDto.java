@@ -15,6 +15,4 @@ public class ReminderCreateDto {
     public String description;
     @NotNull
     private OffsetDateTime remindAt;
-    @NotNull
-    private Long userId;
 }

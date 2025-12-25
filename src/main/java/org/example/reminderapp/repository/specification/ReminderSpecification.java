@@ -34,8 +34,8 @@ public class ReminderSpecification {
             }
 
             // Filters by date "before"
-            if (filter.getUserId() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("userId"), filter.getUserId()));
+            if (filter.getUsername() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("user").get("username"), filter.getUsername()));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
