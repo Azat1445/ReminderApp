@@ -4,6 +4,7 @@ package org.example.reminderapp.service;
 import org.example.reminderapp.dto.UserCreateDto;
 import org.example.reminderapp.dto.UserFilterDto;
 import org.example.reminderapp.entity.User;
+import org.example.reminderapp.entity.enums.Role;
 import org.example.reminderapp.exception.ResourceNotFoundException;
 import org.example.reminderapp.mapper.UserMapperDto;
 import org.example.reminderapp.repository.specification.UserSpecification;
@@ -43,6 +44,7 @@ public class UserService {
     @Transactional
     public UserProfileResponseDto create(UserCreateDto userDto) {
         User entity = userMapperDto.toEntity(userDto);
+        entity.setRole(Role.USER);
         User savedEntity = userRepository.save(entity);
         return userMapperDto.toDto(savedEntity);
     }

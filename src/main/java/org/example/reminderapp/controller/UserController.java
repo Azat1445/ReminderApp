@@ -1,6 +1,7 @@
 package org.example.reminderapp.controller;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,12 +24,14 @@ public class UserController {
 
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public Page<UserProfileResponseDto> findAll(UserFilterDto filter, Pageable pageable) {
         log.info("Request to find all users with filter {}", filter);
         return userService.findAll(filter, pageable);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public UserProfileResponseDto findById(@PathVariable Long id) {
         log.info("Request to find user by id {}", id);
         return userService.findById(id);

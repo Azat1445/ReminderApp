@@ -1,10 +1,8 @@
 package org.example.reminderapp.dto;
 
 import lombok.Data;
-import lombok.Value;
 
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 
 @Data
 public class UserCreateDto {
